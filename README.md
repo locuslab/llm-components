@@ -17,3 +17,5 @@ CUDA_VISIBLE_DEVICES=0 python main.py \
     --head_str L0H0 \
     --savedir results/llama3.1-8b-it/mean_ablate/
 ```
+
+Note that zero ablation does not require collecting any statistics, where we can simply zero out the outputs of one attn head, can use `mp.zero_ablate_llama3_attn_head(layers[layer_id], attn_id)` for zero ablation
