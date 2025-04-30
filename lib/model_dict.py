@@ -1,4 +1,5 @@
-CACHE_DIR_BASE = "/data/locus/llm_weights"
+# CACHE_DIR_BASE = "/data/locus/llm_weights"
+CACHE_DIR_BASE = "/data/locus/project_data/project_data3/abair"
 
 MODEL_DICT_LLMs = {
 
@@ -17,9 +18,19 @@ MODEL_DICT_LLMs = {
         "cache_dir": "/data/locus/project_data/project_data3/llm_weights",
     },
 
+    "pythia-70m": {
+        "model_id": "EleutherAI/pythia-70m-deduped",
+        "cache_dir": CACHE_DIR_BASE,
+    },
+
+    "pythia-6.9b": {
+        "model_id": "EleutherAI/pythia-6.9b-deduped",
+        "cache_dir": CACHE_DIR_BASE,
+    },
+
     "qwen2.5-7b-it": {
         "model_id": "Qwen/Qwen2.5-7B-Instruct",
-        "cache_dir": "/data/locus/project_data/project_data3/llm_weights",
+        "cache_dir": CACHE_DIR_BASE,
     }, 
 
     "llama3.1-8b-base": {
@@ -93,7 +104,7 @@ MODEL_DICT_LLMs = {
     ######################################################################
     "llama3.1-8b-it": {
         "model_id": "meta-llama/Meta-Llama-3.1-8B-Instruct",
-        "cache_dir": "/data/locus/llm_weights",
+        "cache_dir": "/data/locus/project_data/project_data3/abair",
     },
 
     "llama3.1-8b-it-fp8": {

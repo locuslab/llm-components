@@ -21,46 +21,112 @@ import logging as pylogging
 pylogging.getLogger("transformers").setLevel(pylogging.ERROR)
 
 
+# addition_input_texts = [
+#     "2+3=5",
+#     "4+5=9",
+#     "6+7=13",
+#     "8+9=17",
+#     "10+4=14",
+#     "9+5=14",
+#     "12+3=15",
+#     "11+5=16",
+#     "3+7=10",
+#     "15+6=21"
+# ]
+# addition_input_texts = [
+#     "2+3=5",
+#     "4+5=9",
+#     "6+1=7",
+#     "0+9=9",
+#     "4+4=8",
+#     "2+6=9",
+#     "1+2=3",
+#     "5+1=6",
+#     "2+2=4",
+#     "4+3=7"
+# ]
+
 addition_input_texts = [
-    "2+3=5",
-    "4+5=9",
-    "6+7=13",
-    "8+9=17",
-    "10+4=14",
-    "9+5=14",
-    "12+3=15",
-    "11+5=16",
-    "3+7=10",
-    "15+6=21"
+    "12+34=46",
+    "23+45=68",
+    "56+78=134",
+    "67+89=156",
+    "45+32=77",
+    "12+24=36",
+    "31+41=72",
+    "27+36=63",
+    "53+62=115",
+    "18+29=47"
 ]
+
+# addition_input_texts = ['Problem 1: 2+3=5']
+
+# subtraction_input_texts = [
+#     "7-3=4",
+#     "9-4=5",
+#     "10-6=4",
+#     "15-5=10",
+#     "12-9=3",
+#     "6-2=4",
+#     "18-9=9",
+#     "20-8=12",
+#     "25-5=20",
+#     "14-7=7"
+# ]
 subtraction_input_texts = [
     "7-3=4",
     "9-4=5",
-    "10-6=4",
-    "15-5=10",
-    "12-9=3",
+    "9-6=3",
+    "4-2=2",
+    "5-1=4",
     "6-2=4",
-    "18-9=9",
-    "20-8=12",
-    "25-5=20",
-    "14-7=7"
+    "8-5=3",
+    "9-1=8",
+    "4-3=1",
+    "8-2=6"
 ]
+# multiplication_input_texts = [
+#     "2x3=6",
+#     # "2 \\cdot 3 = 6",
+#     "4*5=20",
+#     "6x7=42",
+#     "8*9=72",
+#     # "8 \\cdot 9 = 72",
+#     "7x5=35",
+#     "9*6=54",
+#     # "9 \\cdot 6 = 54",
+#     "10x4=40",
+#     # "10 \\cdot 4 = 40",
+#     "12*3=36",
+#     "11x5=55",
+#     "14*7=98"
+# ] 
+
 multiplication_input_texts = [
+    "1x2=2",
+    "2*2=4",
     "2x3=6",
-    # "2 \\cdot 3 = 6",
-    "4*5=20",
-    "6x7=42",
-    "8*9=72",
-    # "8 \\cdot 9 = 72",
-    "7x5=35",
-    "9*6=54",
-    # "9 \\cdot 6 = 54",
-    "10x4=40",
-    # "10 \\cdot 4 = 40",
-    "12*3=36",
-    "11x5=55",
-    "14*7=98"
-] 
+    "3*2=6",
+    "3x3=9",
+    "1*4=4",
+    "4x1=4",
+    "2*1=2",
+    "1x5=5",
+    "3*1=3"
+]
+
+# multiplication_input_texts = [
+#     "12x13=156",
+#     "23*45=1035",
+#     "34x21=714",
+#     "56*78=4368",
+#     "67x89=5963",
+#     "45*32=1440",
+#     "12x24=288",
+#     "31*41=1271",
+#     "27x36=972",
+#     "53*62=3286"
+# ]
 
 
 multiplication_3_input_texts = [
@@ -108,40 +174,64 @@ multiplication_3_input_texts = [
 # ]
 
 
+# division_input_texts = [
+#     "6/3=2",
+#     "8/4=2",
+#     "12/3=4",
+#     "9/3=3",
+#     "16/4=4",
+#     "20/5=4",
+#     "21/7=3",
+#     "24/6=4",
+#     "30/5=6",
+#     "36/6=6"
+# ]
 division_input_texts = [
     "6/3=2",
     "8/4=2",
-    "12/3=4",
+    "9/9=1",
     "9/3=3",
-    "16/4=4",
-    "20/5=4",
-    "21/7=3",
-    "24/6=4",
-    "30/5=6",
-    "36/6=6"
+    "4/1=4",
+    "8/2=4",
+    "7/1=7",
+    "4/2=2",
+    "6/2=3",
+    "5/5=1"
 ]
 
+# exponentiation_input_texts = [
+#     # "2**3=8",
+#     "5**2=25",
+#     # "10**1=10",
+#     "3**4=81",
+#     # "6**2=36",
+#     "4**3=64",
+#     # "7**2=49",
+#     "9**2=81",
+#     # "2**5=32",
+#     "8**2=64"
+#     "2^3=8",
+#     # "5^2=25",
+#     "10^1=10",
+#     # "3^4=81",
+#     "6^2=36",
+#     # "4^3=64",
+#     "7^2=49",
+#     # "9^2=81",
+#     "2^5=32",
+#     # "8^2=64"
+# ]
 exponentiation_input_texts = [
-    # "2**3=8",
-    "5**2=25",
-    # "10**1=10",
-    "3**4=81",
-    # "6**2=36",
-    "4**3=64",
-    # "7**2=49",
-    "9**2=81",
-    # "2**5=32",
-    "8**2=64"
+    "5**1=5",
+    "3**2=9",
+    "4**1=4",
+    "9**1=9",
+    "2**2=4"
     "2^3=8",
-    # "5^2=25",
     "10^1=10",
-    # "3^4=81",
-    "6^2=36",
-    # "4^3=64",
-    "7^2=49",
-    # "9^2=81",
-    "2^5=32",
-    # "8^2=64"
+    "3^2=9",
+    "7^1=7",
+    "1^1=1",
 ]
     
 
@@ -212,7 +302,10 @@ def create_dataset_plots(args):
         plt.clf()
         attn_outputs = outputs.attentions[layer][:, head, :, :]
 
-        attn_map = attn_outputs[0].detach().cpu().numpy()[1:, 1:]
+        if "pythia" or "qwen" in args.model:
+            attn_map = attn_outputs[0].detach().cpu().numpy()
+        else:
+            attn_map = attn_outputs[0].detach().cpu().numpy()[1:, 1:]
 
         plots_dir = 'attn_maps_math500'
         os.makedirs(plots_dir, exist_ok=True)
@@ -227,21 +320,23 @@ def create_dataset_plots(args):
 
 def create_single_plot(args):
     model, tokenizer = lib.load_llm_hf(args)
+    
     input_texts, _ = _get_input_texts(args)
     layer, head = extract_head_info(args.head_str)
     device = torch.device("cuda:0") if torch.cuda.is_available() else torch.device("cpu")
 
     for idx, input_text in enumerate(input_texts):
-
+        # import pdb; pdb.set_trace()
+        if "pythia" in model.config._name_or_path or "Qwen" in model.config._name_or_path:
+            input_text = "<|endoftext|>" + input_text
         input_ids = tokenizer(input_text, return_tensors='pt').to(device)
         with torch.no_grad():
             outputs = model(**input_ids, output_attentions=True)
-
         tokens = clean_print(tokenizer.convert_ids_to_tokens(input_ids['input_ids'][0]))[1:]
         tick_tokens = [label.replace('$', r'\$') for label in tokens]
 
         attn_outputs = outputs.attentions[layer][:, head, :, :]
-        attn_map = attn_outputs[0].detach().cpu().numpy()[1:, 1:]
+        attn_map = attn_outputs[0].detach().to(dtype=torch.float32).cpu().numpy()[1:, 1:]
 
         os.makedirs(args.savedir, exist_ok=True)
         plt.clf()
@@ -264,7 +359,7 @@ def create_single_plot(args):
 
         ax.set_title(f'Layer {layer}, Head {head}', fontsize=18, pad=12)
         ax.set_xticks(range(len(tokens)))
-        ax.set_xticklabels(tick_tokens, rotation=45, ha='right', fontsize=16)
+        ax.set_xticklabels(tick_tokens, fontsize=16)
         ax.set_yticks(range(len(tokens)))
         ax.set_yticklabels(tick_tokens, fontsize=16)
         for spine in ax.spines.values():
@@ -276,6 +371,47 @@ def create_single_plot(args):
         plt.close()
 
 
+def heatmap_plot(args):
+    modelname = 'qwen'
+    # import pdb; pdb.set_trace()
+    heatmap = np.load(f'{modelname}_{args.list}_{args.tok1}_{args.tok2}_single_digit.npy')
+    print(np.max(heatmap))
+    import pdb; pdb.set_trace()
+    # heatmap1 = np.load(f'{modelname}_addition_4_3_double_digit.npy')
+    # heatmap2 = np.load(f'{modelname}_addition_5_4_double_digit.npy')
+    # heatmap = heatmap1 + heatmap2
+    fig, ax = plt.subplots(figsize=(6, 6))
+    # plot_map = np.where(np.tril(np.ones_like(attn_map)), attn_map, np.nan)
+    vmin = -10
+    vmax = 256
+    original_cmap = plt.cm.Blues
+    norm = matplotlib.colors.Normalize(vmin=vmin, vmax=vmax)
+    cmap = matplotlib.colors.LinearSegmentedColormap.from_list(
+        'truncated_viridis',
+        original_cmap(norm(range(original_cmap.N))),  # Apply normalization
+        original_cmap.N
+    )
+    cmap.set_bad(color='white')
+
+    im = ax.imshow(heatmap, cmap=cmap)
+    # cbar = plt.colorbar(im, fraction=0.046, pad=0.04)
+    # cbar.ax.tick_params(labelsize=16)
+    ax.set_xlabel('Heads')
+    ax.set_ylabel('Layers')
+    ax.set_title(f'{modelname} {args.list} {args.tok1}/{args.tok2}')
+    # ax.set_title(f'{modelname} {args.list} 4/3 + 5/4 double digit')
+
+
+    for spine in ax.spines.values():
+        spine.set_visible(False)
+
+    plt.tight_layout()
+    image_path = f'{args.savedir}/{modelname}_{args.list}_{args.tok1}_{args.tok2}_double_digit.pdf'
+    # image_path = f'{args.savedir}/{modelname}_{args.list}_43_54_double_digit.pdf'
+    plt.savefig(image_path, bbox_inches='tight')
+    plt.close()
+
+
 def get_max_tokens(model, tokenizer, input_text, layer, head):
     device = torch.device("cuda:0") if torch.cuda.is_available() else torch.device("cpu")
     
@@ -284,9 +420,12 @@ def get_max_tokens(model, tokenizer, input_text, layer, head):
         outputs = model(**input_ids, output_attentions=True)
 
     attn_outputs = outputs.attentions[layer][:, head, :, :]
-    attn_map = attn_outputs[0].detach().cpu().numpy()[1:, 1:]
+    if "pythia" in model.config._name_or_path or "qwen" in model.config._name_or_path:
+        attn_map = attn_outputs[0].detach().to(dtype=torch.float32).cpu().numpy()
+    else:
+        attn_map = attn_outputs[0].detach().to(dtype=torch.float32).cpu().numpy()[1:, 1:]
 
-    return np.max(attn_map)
+    return np.argmax(attn_map), np.max(attn_map)
 
 
 def get_loc_tokens(model, tokenizer, input_text, layer, head, idx1, idx2):
@@ -297,17 +436,20 @@ def get_loc_tokens(model, tokenizer, input_text, layer, head, idx1, idx2):
     b/o 2/1
     """
     device = torch.device("cuda:0") if torch.cuda.is_available() else torch.device("cpu")
-    
+    if "pythia" in model.config._name_or_path or "Qwen" in model.config._name_or_path:
+        input_text = "<|endoftext|>" + input_text
     input_ids = tokenizer(input_text, return_tensors='pt').to(device)
+    # import pdb; pdb.set_trace() 
     with torch.no_grad():
         outputs = model(**input_ids, output_attentions=True)
 
-    # tokens = clean_print(tokenizer.convert_ids_to_tokens(input_ids['input_ids'][0]))[1:]
-    # import pdb; pdb.set_trace()
+    tokens = clean_print(tokenizer.convert_ids_to_tokens(input_ids['input_ids'][0]))[1:]
 
     attn_outputs = outputs.attentions[layer][:, head, :, :]
-    attn_map = attn_outputs[0].detach().cpu().numpy()[1:, 1:]
-    attn_val = attn_map[idx1, idx2]
+
+    # import pdb; pdb.set_trace()
+    attn_map = attn_outputs[0].detach().to(dtype=torch.float32).cpu().numpy()[1:, 1:]
+    attn_val = attn_map[idx1, idx2] #- attn_map[0, 0] #################################### subtracted off mean here
     return attn_val
 
 def get_means(model, tokenizer, layer, head):
@@ -346,18 +488,24 @@ def _get_input_texts(args):
 
 
 def _create_heatmap(model, tokenizer, input_texts, tok1, tok2):
+    layers = model.config.num_hidden_layers
+    heads = model.config.num_attention_heads
     heatmap = []
-    for layerid in tqdm(range(32)):
+    for layerid in tqdm(range(layers)):
         headvals = []
-        for headid in range(32):
+        for headid in range(heads):
             mean_attn = 0
             for input_text in input_texts:
                 attn_val = get_loc_tokens(model, tokenizer, input_text, layerid, headid, tok1, tok2)
+                # argmax_attn, max_attn = get_max_tokens(model, tokenizer, input_text, layerid, headid)
+                # if argmax_attn != 0:
+                #     print(argmax_attn, max_attn)
                 mean_attn += attn_val
-            mean_attn /= len(addition_input_texts)
+            mean_attn /= len(input_texts)
             headvals.append(mean_attn)
         heatmap.append(headvals)
     heatmap = np.array(heatmap)
+    # import pdb; pdb.set_trace()
     return heatmap
 
 
@@ -407,10 +555,22 @@ def get_deltas(add_heatmap, sub_heatmap, mul_heatmap, div_heatmap, exp_heatmap):
 
 
 def single_run(args):
-
+    # import pdb; pdb.set_trace()
     model, tokenizer = lib.load_llm_hf(args)
     texts_list, title = _get_input_texts(args)
     heatmap = _create_heatmap(model, tokenizer, texts_list, args.tok1, args.tok2)
+    if args.delta:
+        if "llama" in model.config._name_or_path:
+            averages = np.load('llama_single_digit.npy')
+        elif "pythia" in model.config._name_or_path:
+            averages = np.load('pythia_single_digit.npy')
+        elif "Qwen" in model.config._name_or_path:
+            averages = np.load('qwen_single_digit.npy')
+        elif "gpt" in model.config._name_or_path:
+            averages = np.load('gpt2_single_digit.npy')
+        elif "gemma" in model.config._name_or_path:
+            averages = np.load('gemma_single_digit.npy')
+        heatmap = heatmap - averages
 
     global_sort=True
     if global_sort:
@@ -498,6 +658,46 @@ def delta_run(args):
     print('finished exponentiation')
 
     get_deltas(add_heatmap, sub_heatmap, mul_heatmap, div_heatmap, exp_heatmap)
+
+
+def get_baselines(args):
+    do_avg = False
+    model, tokenizer = lib.load_llm_hf(args)
+    device = torch.device("cuda:0") if torch.cuda.is_available() else torch.device("cpu")
+    layers = model.config.num_hidden_layers
+    heads = model.config.num_attention_heads
+    # input_texts = addition_input_texts + subtraction_input_texts + multiplication_input_texts + division_input_texts
+    input_texts, _ = _get_input_texts(args)
+    # input_texts = '4x2=8'
+    # Average values across all tokens for above input texts
+    heatmap = []
+    for layer in tqdm(range(layers)):
+        headvals = []
+        for head in range(heads):
+            mean_attn = 0
+            for input_text in input_texts:
+                if "pythia" in model.config._name_or_path or "Qwen" in model.config._name_or_path:
+                    input_text = "<|endoftext|>" + input_text
+                input_ids = tokenizer(input_text, return_tensors='pt').to(device)
+                with torch.no_grad():
+                    outputs = model(**input_ids, output_attentions=True)
+                # tokens = clean_print(tokenizer.convert_ids_to_tokens(input_ids['input_ids'][0]))[1:]
+                attn_outputs = outputs.attentions[layer][:, head, :, :]
+                attn_map = attn_outputs[0].detach().to(dtype=torch.float32).cpu().numpy()[1:, 1:]
+                if do_avg:
+                    num_nonzero_elts = (attn_map.shape[0] * (attn_map.shape[0])) / 2
+                    val = attn_map.sum() / num_nonzero_elts
+                else:
+                    val = attn_map[args.tok1, args.tok2]
+                mean_attn += val 
+            mean_attn /= len(input_texts)
+            headvals.append(mean_attn)
+        heatmap.append(headvals)
+    heatmap = np.array(heatmap)
+    # np.savetxt('test.txt', heatmap)
+    np.save(f'qwen_{args.list}_{args.tok1}_{args.tok2}_double_digit.npy', heatmap)
+    # import pdb; pdb.set_trace()
+    
     
 
 def averaged_run(args):
@@ -550,6 +750,7 @@ def run(args):
 
     and if you want to compute the attention from = to 3, you want tok1 = 3 and tok2 = 2.
     """
+    # get_baselines(args)
     if args.run == "plot":
         ### Create heatmaps for a single head's activation on a set of texts
         ### Specify: head_str, list, tok1, tok2, savedir
@@ -567,13 +768,19 @@ def run(args):
         ### Find the differences between activations on a list of texts - mean([other lists of texts])
         ### Specify: tok1, tok2
         delta_run(args)
+    elif args.run == "baselines":
+        ### Get averages across all tokens, all lists, for a given model
+        ### Specify: model
+        get_baselines(args)
+    elif args.run == 'heatmap':
+        heatmap_plot(args)
     else:
         print("Specify one of 'plot', 'single_run', 'average_run', or 'delta_run'.")
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--model', type=str, help='LLaMA model', default='llama3.1-8b-it')
+    parser.add_argument('--model', type=str, help='LLaMA model', default='llama3.1-8b-it') # gemma-2-9b-it, qwen2.5-7b-it, pythia-6.9b, gpt2_xl, llama3.1-8b-it
     parser.add_argument("--num_samples", type=int, default=100)
     parser.add_argument("--access_token", type=str, default="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")
     parser.add_argument("--dataset", type=str, default="math500")
@@ -584,6 +791,7 @@ if __name__ == '__main__':
     parser.add_argument("--tok1", type=int)
     parser.add_argument("--tok2", type=int)
     parser.add_argument("--run", type=str, default="single_run")
+    parser.add_argument("--delta", action='store_true')
     args = parser.parse_args()
     print(args)
 

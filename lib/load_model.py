@@ -1,7 +1,7 @@
 import os
 from vllm import LLM, SamplingParams
 import torch
-from transformers import AutoTokenizer, AutoModelForCausalLM, AutoConfig
+from transformers import AutoTokenizer, AutoModelForCausalLM, AutoConfig, GPTNeoXForCausalLM, GPT2Tokenizer, GPT2Model
 
 from .model_dict import MODEL_DICT_LLMs 
 import logging 
@@ -42,8 +42,18 @@ def load_llm_hf(args):
         model = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype=torch.float16, cache_dir=cache_dir, low_cpu_mem_usage=True, device_map="auto", token=args.access_token)
         tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=False, token=args.access_token, trust_remote_code=True)
     elif "gemma" in args.model:
-        model = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype=torch.bfloat16, cache_dir=cache_dir, low_cpu_mem_usage=True, device_map="auto")
-        tokenizer = AutoTokenizer.from_pretrained(model_name)
+        model = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype=torch.bfloat16, cache_dir=cache_dir, low_cpu_mem_usage=True, device_map="auto", token=args.access_token)
+        tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=False, token=args.access_token, cache_dir=cache_dir, trust_remote_code=True)
+    elif "pythia" in args.model:
+        model = GPTNeoXForCausalLM.from_pretrained(model_name, revision="step3000", cache_dir=cache_dir, device_map="auto").to('cuda')
+        tokenizer = AutoTokenizer.from_pretrained(model_name, revision="step3000", cache_dir=cache_dir)
+    elif "qwen" in args.model:
+        model = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype="auto", device_map="auto", cache_dir=cache_dir)
+        tokenizer = AutoTokenizer.from_pretrained(model_name, cache_dir=cache_dir)
+    elif "gpt2" in args.model:
+        model = GPT2Model.from_pretrained('gpt2-xl', torch_dtype="auto", device_map="auto", cache_dir=cache_dir)
+        tokenizer = GPT2Tokenizer.from_pretrained('gpt2-xl', cache_dir=cache_dir, add_bos_token=True)
+
 
     return model, tokenizer 
 
