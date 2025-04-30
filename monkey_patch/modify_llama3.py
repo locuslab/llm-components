@@ -47,14 +47,20 @@ def llama3_zero_ablate_attention_forward(
         )
 
     bsz, q_len, _ = hidden_states.size()
+    input_shape = hidden_states.shape[:-1]
+    hidden_shape = (*input_shape, -1, self.head_dim)
 
-    query_states = self.q_proj(hidden_states)
-    key_states = self.k_proj(hidden_states)
-    value_states = self.v_proj(hidden_states)
+    # query_states = self.q_proj(hidden_states)
+    # key_states = self.k_proj(hidden_states)
+    # value_states = self.v_proj(hidden_states)
 
-    query_states = query_states.view(bsz, q_len, self.num_heads, self.head_dim).transpose(1, 2)
-    key_states = key_states.view(bsz, q_len, self.num_key_value_heads, self.head_dim).transpose(1, 2)
-    value_states = value_states.view(bsz, q_len, self.num_key_value_heads, self.head_dim).transpose(1, 2)
+    # query_states = query_states.view(bsz, q_len, self.num_heads, self.head_dim).transpose(1, 2)
+    # key_states = key_states.view(bsz, q_len, self.num_key_value_heads, self.head_dim).transpose(1, 2)
+    # value_states = value_states.view(bsz, q_len, self.num_key_value_heads, self.head_dim).transpose(1, 2)
+
+    query_states = self.q_proj(hidden_states).view(hidden_shape).transpose(1, 2)
+    key_states = self.k_proj(hidden_states).view(hidden_shape).transpose(1, 2)
+    value_states = self.v_proj(hidden_states).view(hidden_shape).transpose(1, 2)
 
     if position_embeddings is None:
         # logger.warning_once(
@@ -78,7 +84,9 @@ def llama3_zero_ablate_attention_forward(
 
     # ######################################################
     #### set attention head output to zero
-    value_states[:, self.ablate_head_id, :, :] = 0 
+    for head_id in self.ablate_head_id_list:
+        value_states[:, head_id, :, :] = 0 
+    # value_states[:, self.ablate_head_id, :, :] = 0 
     # ######################################################
 
     causal_mask = attention_mask
@@ -110,15 +118,15 @@ def llama3_zero_ablate_attention_forward(
 
     attn_output = self.o_proj(attn_output)
 
-    return attn_output, None, past_key_value
+    return attn_output, None
 
 
-def zero_ablate_llama3_attn_head(layer, head_id):
+def zero_ablate_llama3_attn_head(layer, head_id_list):
     """
     replace the forward function of LlamaAttention with a custom forward function `llama_custom_attention_forward`
     """
     modified_module = layer.self_attn
-    modified_module.ablate_head_id = head_id
+    modified_module.ablate_head_id_list = head_id_list
 
     # num_heads = modified_module.num_heads 
     # head_dim = modified_module.head_dim
@@ -128,8 +136,6 @@ def zero_ablate_llama3_attn_head(layer, head_id):
     modified_module.forward = types.MethodType(llama3_zero_ablate_attention_forward, modified_module)
 
     return modified_module
-
-
 
 
 def llama3_mean_ablate_attention_forward(
@@ -248,3 +254,57 @@ def mean_ablate_llama3_attn_head(layer, head_id, collect_stats=False):
     modified_module.forward = types.MethodType(llama3_mean_ablate_attention_forward, modified_module)
 
     return modified_module
+
+
+
+
+def decoderlayer_forward(self,
+        hidden_states,
+        attention_mask,
+        position_ids,
+        past_key_value,
+        output_attentions,
+        use_cache,
+        cache_position,
+        position_embeddings,  # necessary, but kept here for BC
+        **kwargs):
+    residual = hidden_states
+    hidden_states = self.input_layernorm(hidden_states)
+
+    # Self Attention
+    hidden_states, self_attn_weights = self.self_attn(
+        hidden_states=hidden_states,
+        attention_mask=attention_mask,
+        position_ids=position_ids,
+        past_key_value=past_key_value,
+        output_attentions=output_attentions,
+        use_cache=use_cache,
+        cache_position=cache_position,
+        position_embeddings=position_embeddings,
+        **kwargs,
+    )
+    hidden_states = residual + hidden_states
+
+    # Fully Connected
+    residual = hidden_states
+    hidden_states = self.post_attention_layernorm(hidden_states)
+    hidden_states = self.mlp(hidden_states)
+    hidden_states = residual + hidden_states
+
+    self.feat = hidden_states.clone().cpu()
+
+    outputs = (hidden_states,)
+    if output_attentions:
+        outputs += (self_attn_weights,)
+
+    return outputs
+
+
+def modify_llama3_decoderlayer(layer):
+    """
+    replace the forward function of LlamaAttention with a custom forward function `llama_custom_attention_forward`
+    """
+
+    layer.forward = types.MethodType(decoderlayer_forward, layer)
+
+    return layer
