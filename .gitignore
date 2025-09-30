@@ -6,12 +6,6 @@ lib/__pycache__/
 monkey_patch/__pycache__
 results/
 tmp*
-gemma*
-llama*
-gpt2*
-pythia*
-qwen*
-4_*
 attn_maps*
 *.pt
 lm-evaluation-harness/
