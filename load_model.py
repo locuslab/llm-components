@@ -1,5 +1,3 @@
-import os
-from vllm import LLM, SamplingParams
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM, AutoConfig, GPTNeoXForCausalLM, GPT2Tokenizer, GPT2Model
 
@@ -45,6 +43,6 @@ MODEL_DICT_LLMs = {
 
 def load_llm_hf(args):
     model_name, cache_dir = MODEL_DICT_LLMs[args.model]["model_id"], MODEL_DICT_LLMs[args.model]["cache_dir"]
-    model = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype=torch.float16, cache_dir=cache_dir, low_cpu_mem_usage=True, device_map="auto", token=args.access_token)
+    model = AutoModelForCausalLM.from_pretrained(model_name, torch_dtype=torch.bfloat16, cache_dir=cache_dir, low_cpu_mem_usage=True, token=args.access_token).to('cuda')
     tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=False, cache_dir=cache_dir, token=args.access_token, trust_remote_code=True)
     return model, tokenizer 

@@ -1,25 +1,32 @@
-## Commands
+## Evaluations
 
-Baseline accuracy on a given model:
+Get baseline accuracy of GSM8K dataset on Llama 3.1 8B model
 ```sh
-python main_eval.py --model llama3.1-8b-it --dataset twodig --single_run
+python run_evals.py --single-run --model llama3.1-8b-it --task gsm8k
 ```
 
-Accuracy with a head ablated:
+Accuracy with heads L16H21 and L15H13 ablated
 ```sh
-python main_eval.py --model llama3.1-8b-it --dataset twodig --single_run --layer_id_list 15 --attn_head_list 13 
+python run_evals.py --single-run --model llama3.1-8b-it --task gsm8k --layerid 16 15 --headid 21 13
 ```
 
-Accuracy with the complement of a head ablated:
+Greedy search via comprehensive ablation of all heads
 ```sh
-python main_eval.py --model llama3.1-8b-it --dataset twodig --single_run --layer_id_list 15 --attn_head_list 13 --complement
+python run_evals.py --model llama3.1-8b-it --task gsm8k --num-samples 100
+```
+Greedy search that additionally always knocks out L16H21 (i.e. for subsequent iterations of iterative greedy search) and does checkpointing for intermediate saving
+```sh
+python run_evals.py --model llama3.1-8b-it --task gsm8k --num-samples 100 --extra-layers 16 --extra-heads 21 --checkpoint
 ```
 
-Collect accuracies for ablating each head in turn and save results:
+After performing greedy search, print out a list of the heads that resulted in the smallest accuracy on the target task:
 ```sh
-python main_eval.py --model llama3.1-8b-it --dataset twodig 
+python get_heads.py --filename {saved filepath here}
 ```
 
-Default is to do zero ablation, add `--mean_ablation` flag to do mean_ablation instead or `--patching` for activation patching.
 
-Examples for evaluating on LM Eval Harness are included in `lm_eval.sh`.
+
+
+
+## Notes
+- Added `unsafe_code: true` to arithmetic_1dc.yaml.

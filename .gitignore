@@ -5,7 +5,12 @@ __pycache__/
 lib/__pycache__/
 monkey_patch/__pycache__
 results/
+old_results/
 tmp*
 attn_maps*
 *.pt
+*.npy
 lm-evaluation-harness/
+search.py
+perplexity.py
+old_dataset.py
