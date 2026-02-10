@@ -42,5 +42,5 @@ python get_heads.py --filename {saved filepath here}
 
 
 
-## Notes
-- Added `unsafe_code: true` to arithmetic_1dc.yaml.
+<!-- ## Notes
+- Added `unsafe_code: true` to arithmetic_1dc.yaml. -->

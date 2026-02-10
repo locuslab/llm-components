@@ -198,14 +198,12 @@ def rhyming_eval(model, tokenizer, num_samples):
                    'ought', 'watch', 'should', 'bury', 'wolf', 'chief', 'done', 'dough', 
                    'fewer', 'sweat', 'bleak', 'busy', 'scald']
 
-    # input_strs = input_strs + tricky_rhymes
     if num_samples is None:
         print('using train and test')
         words = train_rhymes + test_rhymes
     else:
         print('using only train')
         words = train_rhymes
-    # for input_str in words:
     for input_str in tqdm(words):
         message_list = [{"role": "user", "content": f"Answer with the word only: Give me a word that rhymes with {input_str}"}]
         texts = tokenizer.apply_chat_template(message_list, tokenize=False, add_generation_prompt=True)

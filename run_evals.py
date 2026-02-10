@@ -196,6 +196,7 @@ def run_batch(collector: MatrixResultCollector, task, num_samples):
 
 
 def main(args):
+    # No greedy results on qwen models
     model_sizes = {'llama3.1-8b-it': (32, 32), 'llama3.2-3b-it': (28, 24), 'llama3.2-1b-it': (16, 32)}
     n_layers, n_heads = model_sizes[args.model]
     model_name_str = args.model.replace('-', '_')
