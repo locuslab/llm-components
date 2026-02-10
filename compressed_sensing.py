@@ -2,11 +2,9 @@ import os
 import time
 import torch
 import numpy as np
-from transformers import AutoModelForCausalLM, AutoTokenizer
-from sklearn.linear_model import Lasso, ElasticNet, LinearRegression
+from sklearn.linear_model import Lasso
 from sklearn.preprocessing import StandardScaler
-from typing import List, Dict, Tuple
-import matplotlib.pyplot as plt
+from typing import List, Tuple
 from tqdm import tqdm
 import argparse
 import lm_eval
@@ -94,7 +92,7 @@ class HeadImportanceIdentifier:
             head_lst =  np.where(mask_2d[layer_idx])[0].tolist()
             zero_ablate_attn_head(layer, head_lst)
 
-    def evaluate_with_mask(self, mask, task, lmeval, contrastive):
+    def evaluate_with_mask(self, mask, task, lmeval):
         model, tokenizer = self.reset_model()
         self.apply_head_mask(mask, model, lmeval)
         acc = task_eval(model, tokenizer, task, self.sampled_examples, self.num_samples)
@@ -105,7 +103,7 @@ class HeadImportanceIdentifier:
         return acc
         
     
-    def identify_important_heads(self, task, lmeval, n_masks, sparsity, alpha, method, contrastive):
+    def identify_important_heads(self, task, lmeval, n_masks, sparsity, alpha):
 
         print(f"Generating {n_masks} random masks...")
         masks = self.generate_random_masks(n_masks, sparsity)
@@ -113,7 +111,7 @@ class HeadImportanceIdentifier:
         print(f"Evaluating model with each mask...")
         accuracies = []
         for i, mask in enumerate(tqdm(masks)):
-            acc = self.evaluate_with_mask(mask, task, lmeval, contrastive)
+            acc = self.evaluate_with_mask(mask, task, lmeval)
             accuracies.append(acc)
             if (i + 1) % 10 == 0:
                 print(f"  Mask {i+1}/{n_masks}: accuracy = {acc*100:.3f}")
@@ -154,7 +152,7 @@ class HeadImportanceIdentifier:
             # Update Beta distributions
             # Heads that were kept in a high-accuracy mask get alpha boost
             # Heads that were ablated get beta boost
-            reward = acc # 1-acc: Minimize accuracy
+            reward = acc #1-acc # Minimize accuracy
             alphas[selected] += reward
             betas[selected] += (1 - reward)
             
@@ -172,7 +170,6 @@ class HeadImportanceIdentifier:
                     layer = idx // self.n_heads
                     head = idx % self.n_heads
                     print(f"    ({layer:2d}, {head:2d}): {expectations[idx]:.4f}")
-            # import pdb; pdb.set_trace()
         
         # Final importance = expected value of Beta distribution
         head_importance = alphas / (alphas + betas)
@@ -246,6 +243,7 @@ if __name__ == "__main__":
     parser.add_argument('--alpha', type=float, default=0.01)
     parser.add_argument('--strategy', type=str, default='random')
     parser.add_argument('--thompson_iters', type=int, default=50)
+    parser.add_argument('--stratified', action='store_true')
     args = parser.parse_args()
     args.lmeval = args.task not in ['swearing', 'rhyming', 'counting']
     print(args)
@@ -258,8 +256,7 @@ if __name__ == "__main__":
             n_masks=args.nmasks, 
             sparsity=args.sparsity, 
             alpha=args.alpha, 
-            method=args.method,
-            contrastive=args.contrastive)
+        )
     elif args.strategy == 'thompson':
         head_importance, results = identifier.thompson_sampling(
             task=args.task, 
